@@ -4,7 +4,15 @@ And this clean to clean mapping is also a verification for the whole feature ext
 
 We train the model using the standard TIMIT training set and using the standard TIMIT test set as testing.
 
-The final PESQ on the TIMIT test utterance can be as high as 4.4 (The PESQ value range is [0, +4.5], higher better) 
+The final PESQ on the TIMIT test utterance can be as high as 4.4 (The PESQ value range is [0, +4.5], higher better)
+
+Steps:
+
+step0: modify the config.py for your paths
+step1: python prepare_fea.py
+step3: python main_train_sednn_keras_v2.py
+step4: python main_decode_sednn_keras.py
+step5: ./pesq ref.wav enh.wav +16000
 
 The training loss can be as low as "zero"!!!!
 
