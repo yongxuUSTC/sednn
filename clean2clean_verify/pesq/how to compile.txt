@@ -1,0 +1,29 @@
+$ gcc -o PESQ *.c -lm
+This will compile the files dsp.c, pesqdsp.c, pesqio.c, pesqmain.c, pesqmod.c into a binary file PESQ which you can then run with ./PESQ:
+
+$ ./PESQ
+Perceptual Evaluation of Speech Quality (PESQ)
+Reference implementation for ITU-T Recommendations P.862, P.862.1 and P.862.2.
+Version 2.0 October 2005.
+
+<snip long unenlightening IP notice>
+
+Usage:
+ PESQ HELP               Displays this text
+ PESQ [options] ref deg
+ Run model on reference ref and degraded deg
+
+ Options: +8000 +16000 +swap +wb
+  Sample rate - No default. Must select either +8000 or +16000.
+  Swap byte order - machine native format by default. Select +swap for byteswap.
+  Default mode of operation is P.862 (narrowband handset listening). Select +wb 
+  to use P.862.2 wideband extension (headphone listening).
+
+ File names may not begin with a + character.
+......
+
+
+How to use ???
+
+./pesq TEST_DR1_MRJO0_SI1364.WAV TEST_DR1_MRJO0_SI1364_dnnEnh.wav +16000
+
