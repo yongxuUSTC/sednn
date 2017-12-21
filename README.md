@@ -4,7 +4,12 @@ deep learning based speech enhancement using keras python
 # Goal:
 Make the GPU-C++ code project convert to python code which is much easier for community to follow and use. The training and decoding code will be unified into the python code. Keras will be used as the tookit.
 
-Ref:
+# Invitation:
+I want to invite you to be one of the contributors of this project, please contact me if you have interest. yong.xu.ustc@gmail.com
+
+My final goal is to build a universal & robust deep learning based speech enhancement front end. And aslo try to adapt it to really serve for the speech recognition back-end.
+
+# Ref:
 The original GPU-C++ code: https://github.com/yongxuUSTC/DNN-for-speech-enhancement
 
 Please cite the following papers if you use this code:
