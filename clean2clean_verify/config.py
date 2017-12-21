@@ -7,7 +7,7 @@ Modified:
 '''
 ori_dev_root ='/vol/vssp/msos/yx/source_separation/enhSpec2wav' ### running folder
 
-dev_wav_fd = '/vol/vssp/AP_datasets/audio/dcase2016/timit_enh/wav/train'  ### fold where all wavs are there
+dev_wav_fd = '/vol/vssp/AP_datasets/audio/dcase2016/timit_enh/wav'  ### fold where all wavs are there
 
 # temporary data folder
 scrap_fd = "/vol/vssp/msos/yx/source_separation/enhSpec2wav/fea"    ### generated log-magnitude-fea parent folder
