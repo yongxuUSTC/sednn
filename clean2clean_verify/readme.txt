@@ -13,7 +13,8 @@ step3: python main_train_sednn_keras_v2.py
 step4: python main_decode_sednn_keras.py
 step5: ./pesq ref.wav enh.wav +16000
 
-The trained DNN model on TIMTI training set which can bring the PESQ upto 4.4 on TIMIT test set: https://drive.google.com/file/d/1MtW2e1-9A5whiwJemc9VQnKTFV9L10bY/view
+The trained DNN model on TIMTI training set which can bring the PESQ upto 4.4 on TIMIT test set: 
+https://drive.google.com/file/d/1MtW2e1-9A5whiwJemc9VQnKTFV9L10bY/view
 
 The training loss can be as low as "zero"!!!!
 880564/880564 [==============================] - 39s - loss: 0.1572 - val_loss: 0.0854
