@@ -6,8 +6,7 @@ We train the model using the standard TIMIT training set and using the standard 
 
 The final PESQ on the TIMIT test utterance can be as high as 4.4 (The PESQ value range is [0, +4.5], higher better)
 
-Steps:
-
+Steps (keras with tensorflow backend):
 step0: modify the config.py for your paths
 step1: python prepare_fea.py
 step3: python main_train_sednn_keras_v2.py
