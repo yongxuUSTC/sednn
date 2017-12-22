@@ -101,17 +101,18 @@ def get_stats(args):
             pesq_dict[noise_type].append(pesq)
         
     avg_list, std_list = [], []
-    print("%s\t%s" % ("Noise", "PESQ"))
-    print("----------------------")
+    f = "{0:<16} {1:<16}"
+    print(f.format("Noise", "PESQ"))
+    print("---------------------------------")
     for noise_type in pesq_dict.keys():
         pesqs = pesq_dict[noise_type]
         avg_pesq = np.mean(pesqs)
         std_pesq = np.std(pesqs)
         avg_list.append(avg_pesq)
         std_list.append(std_pesq)
-        print("%s\t%.2f +- %.2f" % (noise_type, avg_pesq, std_pesq))
-    print("----------------------")
-    print("%s\t%.2f +- %.2f\n" % ("Avg.", np.mean(avg_list), np.mean(std_list)))
+        print(f.format(noise_type, "%.2f +- %.2f" % (avg_pesq, std_pesq)))
+    print("---------------------------------")
+    print(f.format("Avg.", "%.2f +- %.2f" % (np.mean(avg_list), np.mean(std_list))))
 
 
 if __name__ == '__main__':
