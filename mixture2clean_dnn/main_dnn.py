@@ -60,6 +60,7 @@ def train(args):
       te_snr: float, testing SNR. 
       lr: float, learning rate. 
     """
+    print(args)
     workspace = args.workspace
     tr_snr = args.tr_snr
     te_snr = args.te_snr
@@ -118,24 +119,44 @@ def train(args):
     eval_te_gen = DataGenerator(batch_size=batch_size, type='test', te_max_iter=100)
     eval_tr_gen = DataGenerator(batch_size=batch_size, type='test', te_max_iter=100)
     
+    # Directories for saving models and training stats
     model_dir = os.path.join(workspace, "models", "%ddb" % int(tr_snr))
     pp_data.create_folder(model_dir)
     
+    stats_dir = os.path.join(workspace, "training_stats", "%ddb" % int(tr_snr))
+    pp_data.create_folder(stats_dir)
+    
+    # Print loss before training. 
     iter = 0
     tr_loss = eval(model, eval_tr_gen, tr_x, tr_y)
     te_loss = eval(model, eval_te_gen, te_x, te_y)
     print("Iteration: %d, tr_loss: %f, te_loss: %f" % (iter, tr_loss, te_loss))
     
+    # Save out training stats. 
+    stat_dict = {'iter': iter, 
+                    'tr_loss': tr_loss, 
+                    'te_loss': te_loss, }
+    stat_path = os.path.join(stats_dir, "%diters.p" % iter)
+    cPickle.dump(stat_dict, open(stat_path, 'wb'), protocol=cPickle.HIGHEST_PROTOCOL)
+    
     # Train. 
+    t1 = time.time()
     for (batch_x, batch_y) in tr_gen.generate(xs=[tr_x], ys=[tr_y]):
         loss = model.train_on_batch(batch_x, batch_y)
         iter += 1
         
-        # Validate. 
+        # Validate and save training stats. 
         if iter % 1000 == 0:
             tr_loss = eval(model, eval_tr_gen, tr_x, tr_y)
             te_loss = eval(model, eval_te_gen, te_x, te_y)
             print("Iteration: %d, tr_loss: %f, te_loss: %f" % (iter, tr_loss, te_loss))
+            
+            # Save out training stats. 
+            stat_dict = {'iter': iter, 
+                         'tr_loss': tr_loss, 
+                         'te_loss': te_loss, }
+            stat_path = os.path.join(stats_dir, "%diters.p" % iter)
+            cPickle.dump(stat_dict, open(stat_path, 'wb'), protocol=cPickle.HIGHEST_PROTOCOL)
             
         # Save model. 
         if iter % 5000 == 0:
@@ -143,9 +164,10 @@ def train(args):
             model.save(model_path)
             print("Saved model to %s" % model_path)
         
-        if iter == 20001:
+        if iter == 10001:
             break
-        
+            
+    print("Training time: %s s" % (time.time() - t1,))
 
 def inference(args):
     """Inference all test data, write out recovered wavs to disk. 
@@ -159,6 +181,7 @@ def inference(args):
       iter: int, iteration of model to load. 
       visualize: bool, plot enhanced spectrogram for debug. 
     """
+    print(args)
     workspace = args.workspace
     tr_snr = args.tr_snr
     te_snr = args.te_snr
@@ -182,7 +205,7 @@ def inference(args):
     feat_dir = os.path.join(workspace, "features", "spectrogram", "test", "%ddb" % int(te_snr))
     names = os.listdir(feat_dir)
 
-    for na in names:
+    for (cnt, na) in enumerate(names):
         # Load feature. 
         feat_path = os.path.join(feat_dir, na)
         data = cPickle.load(open(feat_path, 'rb'))
@@ -205,8 +228,7 @@ def inference(args):
         
         # Predict. 
         pred = model.predict(mixed_x_3d)
-        print(na)
-        print(pred.shape, speech_x.shape)
+        print(cnt, na)
         
         # Inverse scale. 
         if scale:
@@ -220,11 +242,12 @@ def inference(args):
             axs[0].matshow(mixed_x.T, origin='lower', aspect='auto', cmap='jet')
             axs[1].matshow(speech_x.T, origin='lower', aspect='auto', cmap='jet')
             axs[2].matshow(pred.T, origin='lower', aspect='auto', cmap='jet')
-            axs[0].set_title("%ddb mixture" % int(te_snr))
-            axs[1].set_title("Clean speech")
-            axs[2].set_title("Enhanced speech")
+            axs[0].set_title("%ddb mixture log Mel spectrogram" % int(te_snr))
+            axs[1].set_title("Clean speech log Mel spectrogram")
+            axs[2].set_title("Enhanced speech log Mel spectrogram")
             for j1 in xrange(3):
                 axs[j1].xaxis.tick_bottom()
+            plt.tight_layout()
             plt.show()
 
         # Recover enhanced wav. 
