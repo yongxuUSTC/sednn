@@ -15,7 +15,7 @@ It is suggest to use mini data for a quick run before using full data. We alread
 
 Copy the compiled executable pesq to mixture2clean_dnn/
 
-3. Run ./runme.sh, then mixing data, training, inference and evaluation will be executed. You may also run the commands in runme.sh line by line. 
+3. Run ./runme.sh, then mixing data, training, inference and evaluation will be executed. You may also run the commands in runme.sh line by line to ensure every steps are correctly runned. 
 
 If all the steps are successful, you may get results printed on the screen. Notice only mini data is used for training. Better results can be obtained using more data for training. 
 
