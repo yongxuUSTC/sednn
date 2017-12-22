@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MINIDATA=true
-if [ $MINIDATA ]; then
+MINIDATA=1
+if [ $MINIDATA -eq 1 ]; then
   WORKSPACE="workspace"
   mkdir $WORKSPACE
   TR_SPEECH_DIR="mini_data/train_speech"
@@ -10,6 +10,12 @@ if [ $MINIDATA ]; then
   TE_NOISE_DIR="mini_data/test_noise"
   echo "Using mini data. "
 else
+  WORKSPACE="/vol/vssp/msos/qk/workspaces/speech_enhancement"
+  TR_SPEECH_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/timit_wavs/train"
+  TR_NOISE_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/nosie_wavs/train"
+  TE_SPEECH_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/timit_wavs/subtest"
+  TE_NOISE_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/nosie_wavs/test"
+  echo "Using full data. "
 fi
 
 # Create mixture csv. 
@@ -35,7 +41,10 @@ python prepare_data.py compute_scaler --workspace=$WORKSPACE --data_type=train -
 LEARNING_RATE=1e-4
 CUDA_VISIBLE_DEVICES=3 python main_dnn.py train --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --lr=$LEARNING_RATE
 
-# Inference. 
+# Plot training stat. 
+python evaluate.py plot_training_stat --workspace=$WORKSPACE --tr_snr=$TR_SNR --bgn_iter=0 --fin_iter=10001 --interval_iter=1000
+
+# Inference, enhanced wavs will be created. 
 ITERATION=10000
 CUDA_VISIBLE_DEVICES=3 python main_dnn.py inference --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --n_concat=$N_CONCAT --iteration=$ITERATION
 
