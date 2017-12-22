@@ -17,12 +17,14 @@ It is suggest to use mini data for a quick run before using full data. We alread
 
 If all the steps are successful, you may get results printed on the screen. Notice only mini data is used for training. Better results can be obtained using more data for training. 
 
+<pre>
 Noise   PESQ
-# ----------------------
+----------------------
 n64     1.36 +- 0.05
 n71     1.35 +- 0.18
-# ----------------------
+----------------------
 Avg.    1.35 +- 0.12
+</pre>
 
 ## Use your own data. 
 You may replace the mini data with your own data. We listed the data need to be prepared in meta_data/ to re-run the experiments in [1]. The data contains:
