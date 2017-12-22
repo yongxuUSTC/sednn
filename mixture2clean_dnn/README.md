@@ -47,6 +47,29 @@ Some of the dataset are not published. Instead, you could collect your own data.
 
 If all the steps are successful, you may get results printed on the screen. The training takes a few miniutes to train 10,000 iterations on a TitanX GPU. 
 
+<pre>
+Noise            PESQ
+---------------------------------
+pink             2.01 +- 0.23
+buccaneer1       1.88 +- 0.25
+factory2         2.21 +- 0.21
+hfchannel        1.63 +- 0.24
+factory1         1.93 +- 0.23
+babble           1.81 +- 0.28
+m109             2.13 +- 0.25
+leopard          2.49 +- 0.23
+volvo            2.83 +- 0.23
+buccaneer2       2.03 +- 0.25
+white            2.00 +- 0.21
+f16              1.86 +- 0.24
+destroyerops     1.99 +- 0.23
+destroyerengine  1.86 +- 0.23
+machinegun       2.55 +- 0.27
+---------------------------------
+Avg.             2.08 +- 0.24
+</pre>
+
+
 ## Visualization
 In the inference step, you may add --visualize to the arguments to plot the mixture, clean and enhanced speech log Melspectrogram. 
 
