@@ -36,7 +36,7 @@ def calculate_pesq(args):
         speech_path = os.path.join(speech_dir, "%s.WAV" % speech_na)
         
         # Call executable PESQ tool. 
-        cmd = ' '.join(["./pesq_tool/PESQ", speech_path, enh_path, "+16000"])
+        cmd = ' '.join(["./pesq", speech_path, enh_path, "+16000"])
         os.system(cmd)        
         
         

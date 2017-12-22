@@ -10,12 +10,6 @@ if [ $MINIDATA ]; then
   TE_NOISE_DIR="mini_data/test_noise"
   echo "Using mini data. "
 else
-  WORKSPACE="/vol/vssp/msos/qk/workspaces/speech_enhancement"
-  TR_SPEECH_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/timit_wavs/train"
-  TR_NOISE_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/nosie_wavs/train"
-  TE_SPEECH_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/timit_wavs/subtest"
-  TE_NOISE_DIR="/vol/vssp/msos/qk/workspaces/speech_enhancement/nosie_wavs/test"
-  echo "Using full data. "
 fi
 
 # Create mixture csv. 

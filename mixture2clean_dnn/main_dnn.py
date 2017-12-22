@@ -143,7 +143,7 @@ def train(args):
             model.save(model_path)
             print("Saved model to %s" % model_path)
         
-        if iter == 100000:
+        if iter == 20001:
             break
         
 
@@ -216,13 +216,15 @@ def inference(args):
         
         # Debug plot. 
         if args.visualize:
-            fig, axs = plt.subplots(3,1, sharex=True)
+            fig, axs = plt.subplots(3,1, sharex=False)
             axs[0].matshow(mixed_x.T, origin='lower', aspect='auto', cmap='jet')
             axs[1].matshow(speech_x.T, origin='lower', aspect='auto', cmap='jet')
             axs[2].matshow(pred.T, origin='lower', aspect='auto', cmap='jet')
             axs[0].set_title("%ddb mixture" % int(te_snr))
             axs[1].set_title("Clean speech")
             axs[2].set_title("Enhanced speech")
+            for j1 in xrange(3):
+                axs[j1].xaxis.tick_bottom()
             plt.show()
 
         # Recover enhanced wav. 
