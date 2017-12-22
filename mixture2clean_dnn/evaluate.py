@@ -8,6 +8,46 @@ import argparse
 import os
 import csv
 import numpy as np
+import cPickle
+import matplotlib.pyplot as plt
+
+
+def plot_training_stat(args):
+    """Plot training and testing loss. 
+    
+    Args: 
+      workspace: str, path of workspace. 
+      tr_snr: float, training SNR. 
+      bgn_iter: int, plot from bgn_iter
+      fin_iter: int, plot finish at fin_iter
+      interval_iter: int, interval of files. 
+    """
+    workspace = args.workspace
+    tr_snr = args.tr_snr
+    bgn_iter = args.bgn_iter
+    fin_iter = args.fin_iter
+    interval_iter = args.interval_iter
+
+    tr_losses, te_losses, iters = [], [], []
+    
+    # Load stats. 
+    stats_dir = os.path.join(workspace, "training_stats", "%ddb" % int(tr_snr))
+    for iter in xrange(bgn_iter, fin_iter, interval_iter):
+        stats_path = os.path.join(stats_dir, "%diters.p" % iter)
+        dict = cPickle.load(open(stats_path, 'rb'))
+        tr_losses.append(dict['tr_loss'])
+        te_losses.append(dict['te_loss'])
+        iters.append(dict['iter'])
+        
+    # Plot
+    line_tr, = plt.plot(tr_losses, c='b', label="Train")
+    line_te, = plt.plot(te_losses, c='r', label="Test")
+    plt.axis([0, len(iters), 0, max(tr_losses)])
+    plt.xlabel("Iterations")
+    plt.ylabel("Loss")
+    plt.legend(handles=[line_tr, line_te])
+    plt.xticks(np.arange(len(iters)), iters)
+    plt.show()
 
 
 def calculate_pesq(args):
@@ -29,7 +69,8 @@ def calculate_pesq(args):
     # Calculate PESQ of all enhaced speech. 
     enh_speech_dir = os.path.join(workspace, "enh_wavs", "test", "%ddb" % int(te_snr))
     names = os.listdir(enh_speech_dir)
-    for na in names:
+    for (cnt, na) in enumerate(names):
+        print(cnt, na)
         enh_path = os.path.join(enh_speech_dir, na)
         
         speech_na = na.split('.')[0]
@@ -77,6 +118,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='mode')
 
+    parser_plot_training_stat = subparsers.add_parser('plot_training_stat')
+    parser_plot_training_stat.add_argument('--workspace', type=str, required=True)
+    parser_plot_training_stat.add_argument('--tr_snr', type=float, required=True)
+    parser_plot_training_stat.add_argument('--bgn_iter', type=int, required=True)
+    parser_plot_training_stat.add_argument('--fin_iter', type=int, required=True)
+    parser_plot_training_stat.add_argument('--interval_iter', type=int, required=True)
+
     parser_calculate_pesq = subparsers.add_parser('calculate_pesq')
     parser_calculate_pesq.add_argument('--workspace', type=str, required=True)
     parser_calculate_pesq.add_argument('--speech_dir', type=str, required=True)
@@ -86,7 +134,9 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
-    if args.mode == 'calculate_pesq':
+    if args.mode == 'plot_training_stat':
+        plot_training_stat(args)
+    elif args.mode == 'calculate_pesq':
         calculate_pesq(args)
     elif args.mode == 'get_stats':
         get_stats(args)
