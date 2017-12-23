@@ -1,8 +1,8 @@
 """
 Summary:  Train, inference and evaluate speech enhancement. 
 Author:   Qiuqiang Kong
-Created:  
-Modified: 
+Created:  2017.12.22
+Modified: -
 """
 import numpy as np
 import os
