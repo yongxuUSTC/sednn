@@ -242,9 +242,9 @@ def inference(args):
             axs[0].matshow(mixed_x.T, origin='lower', aspect='auto', cmap='jet')
             axs[1].matshow(speech_x.T, origin='lower', aspect='auto', cmap='jet')
             axs[2].matshow(pred.T, origin='lower', aspect='auto', cmap='jet')
-            axs[0].set_title("%ddb mixture log Mel spectrogram" % int(te_snr))
-            axs[1].set_title("Clean speech log Mel spectrogram")
-            axs[2].set_title("Enhanced speech log Mel spectrogram")
+            axs[0].set_title("%ddb mixture log spectrogram" % int(te_snr))
+            axs[1].set_title("Clean speech log spectrogram")
+            axs[2].set_title("Enhanced speech log spectrogram")
             for j1 in xrange(3):
                 axs[j1].xaxis.tick_bottom()
             plt.tight_layout()
