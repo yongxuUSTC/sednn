@@ -20,7 +20,7 @@ Copy the compiled executable pesq to mixture2clean_dnn/
 If all the steps are successful, you may get results printed on the screen. Notice only mini data is used for training. Better results can be obtained using more data for training. 
 
 <pre>
-Noise   PESQ
+Noise(0dB)   PESQ
 ----------------------
 n64     1.36 +- 0.05
 n71     1.35 +- 0.18
@@ -50,7 +50,7 @@ Some of the dataset are not published. Instead, you could collect your own data.
 If all the steps are successful, you may get results printed on the screen. The training takes a few miniutes to train 10,000 iterations on a TitanX GPU. 
 
 <pre>
-Noise            PESQ
+Noise(0dB)            PESQ
 ---------------------------------
 pink             2.01 +- 0.23
 buccaneer1       1.88 +- 0.25
@@ -73,6 +73,6 @@ Avg.             2.08 +- 0.24
 
 
 ## Visualization
-In the inference step, you may add --visualize to the arguments to plot the mixture, clean and enhanced speech log Melspectrogram. 
+In the inference step, you may add --visualize to the arguments to plot the mixture, clean and enhanced speech log magnitude spectrogram. 
 
 ![alt text](https://github.com/yongxuUSTC/deep_learning_based_speech_enhancement_keras_python/blob/master/mixture2clean_dnn/appendix/enhanced_log_mel_sp.png)
