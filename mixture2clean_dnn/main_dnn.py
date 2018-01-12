@@ -253,7 +253,8 @@ def inference(args):
         # Recover enhanced wav. 
         pred_sp = np.exp(pred)
         s = recover_wav(pred_sp, mixed_cmplx_x, n_overlap, np.hamming)
-        s *= np.sqrt((np.hamming(n_window)**2).sum())
+        s *= np.sqrt((np.hamming(n_window)**2).sum())   # Scaler for compensate the amplitude 
+                                                        # change after spectrogram and IFFT. 
         
         # Write out enhanced wav. 
         out_path = os.path.join(workspace, "enh_wavs", "test", "%ddb" % int(te_snr), "%s.enh.wav" % na)
