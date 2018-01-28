@@ -95,3 +95,6 @@ Avg.             2.08 +- 0.24
 In the inference step, you may add --visualize to the arguments to plot the mixture, clean and enhanced speech log magnitude spectrogram. 
 
 ![alt text](https://github.com/yongxuUSTC/deep_learning_based_speech_enhancement_keras_python/blob/master/mixture2clean_dnn/appendix/enhanced_log_sp.png)
+
+Bugs report:
+1. PESQ dose not support long path/folder name, so please shorten your path/folder name. Or you will get a wrong/low PESQ score (or you can modify the PESQ source code to enlarge the size of the path name variable)
