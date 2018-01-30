@@ -98,3 +98,5 @@ In the inference step, you may add --visualize to the arguments to plot the mixt
 
 ## Bugs report:
 1. PESQ dose not support long path/folder name, so please shorten your path/folder name. Or you will get a wrong/low PESQ score (or you can modify the PESQ source code to enlarge the size of the path name variable)
+
+2. For larger dataset which can not be loaded into the momemory at one time, you can 1. prepare your training scp list ---> 2. random your training scp list ---> 3. split your triaining scp list into several parts ---> 4. read each part for training one by one
