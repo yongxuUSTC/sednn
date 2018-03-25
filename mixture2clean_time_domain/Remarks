@@ -1,0 +1,4 @@
+Speech enh in time domain. 
+
+tmp01.py	# Linear conv, PESQ=?? after 10000 iters. mulaw: 1.45. 
+tmp02.py	# PESQ=1.95 after 40000 iters. 
