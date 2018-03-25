@@ -1,0 +1,55 @@
+speech indices: 856564
+noise indices: 55348
+
+tmp01.py	# tmp file
+* tmp01b.py	# DNN, reimplement of mixture2clean_dnn, n_hid=2048, mse on log scaled, 1500 iters / min. 
+                      ITER=10000, PESQ=2.13, 
+                      ITER=30000, PESQ=2.25 
+                      ITER=50000, PESQ=2.28	
+                      ITER=70000, OESQ=2.29
+* tmp01c.py	# DNN, L1 loss on magnitude
+		      ITER=10000, PESQ=2.34
+                      ITER=30000, PESQ=2.38
+                      ITER=50000, PESQ=2.41
+                      ITER=100000, PESQ=2.42
+                      ITER=500000, PESQ=2.45
+                      ITER=1000000, PESQ=2.47
+tmp01c.py + wiener filter, 
+                      ITER=10000, PESQ=2.45
+		      ITER=30000, PESQ=2.49
+                      ITER=50000, PESQ=2.50
+tmp01d.py	# BN, others the same as tmp01c.py
+                      ITER=10000, PESQ=2.28
+tmp01e'.py	# n_hid=512, others same as tmp01c.py. 
+                      ITER=10000, PESQ=2.19 (shows n_hid=512 is underfitting)
+tmp01f'.py	# n_hid=2048, others same as tmp01c.py. 
+                      ITER=10000, PESQ=2.36
+tmp01e.py	# lr=1e-5, others same as tmp01c.py
+                      ITER=10000, PESQ=2.15
+                      ITER=30000, PESQ=2.28
+                      ITER=50000, PESQ=2.31
+                      ITER=100000, PESQ=2.37
+                      ITER=500000, PESQ=2.44
+                      ITER=1000000, PESQ=2.45
+tmp02.py	# DenseNet
+                      ITER=10000, PESQ=2.35
+                      iter=30000, pesq=2.39
+tmp02b.py	# DenseNet, 6 layers
+		      ITER=10000, PESQ=2.34
+                      ITER=30000, PESQ=2.39
+tmp03.py	# +5, 0, -5 snr, others same as tmp1c.py
+		      ITER=10000, PESQ=2.32
+                      ITER=30000, PESQ=2.38
+                      ITER=50000, PESQ=2.40
+                      ITER=100000, PESQ=2.40
+                      iter=500000, PESQ=2.44
+                      ITER=1000000, PESQ=2.46
+tmp03b.py	# uniform [-10, 10] snr, others same as tmp1c.py
+                      ITER=10000, PESQ=2.28
+                      ITER=30000, PESQ=2.38
+                      ITER=50000, PESQ=2.40
+                      ITER=100000, PESQ=2.40
+                      ITER=500000, PESQ=2.44
+                      ITER=1000000, PESQ=2.44
+tmp04.py	# loss on samples
+                      ITER=100000, PESQ=2.27
