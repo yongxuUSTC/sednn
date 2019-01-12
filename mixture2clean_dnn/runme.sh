@@ -22,7 +22,7 @@ fi
 python prepare_data.py create_mixture_csv --workspace=$WORKSPACE --speech_dir=$TR_SPEECH_DIR --noise_dir=$TR_NOISE_DIR --data_type=train --magnification=2
 python prepare_data.py create_mixture_csv --workspace=$WORKSPACE --speech_dir=$TE_SPEECH_DIR --noise_dir=$TE_NOISE_DIR --data_type=test
 
-# Calculate mixture features.
+# Calculate mixture audio and features.
 TR_SNR=0
 TE_SNR=0 
 python prepare_data.py calculate_mixture_features --workspace=$WORKSPACE --speech_dir=$TR_SPEECH_DIR --noise_dir=$TR_NOISE_DIR --data_type=train --snr=$TR_SNR
@@ -35,7 +35,7 @@ python prepare_data.py pack_features --workspace=$WORKSPACE --data_type=train --
 python prepare_data.py pack_features --workspace=$WORKSPACE --data_type=test --snr=$TE_SNR --n_concat=$N_CONCAT --n_hop=$N_HOP
 
 # Compute scaler. 
-python prepare_data.py compute_scaler --workspace=$WORKSPACE --data_type=train --snr=$TR_SNR
+python prepare_data.py write_out_scaler --workspace=$WORKSPACE --data_type=train --snr=$TR_SNR
 
 # Train. 
 LEARNING_RATE=1e-4
@@ -54,3 +54,9 @@ python evaluate.py calculate_pesq --workspace=$WORKSPACE --speech_dir=$TE_SPEECH
 # Calculate overall stats. 
 python evaluate.py get_stats
 
+
+
+###
+CUDA_VISIBLE_DEVICES=3 python pytorch/main.py train --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR
+
+CUDA_VISIBLE_DEVICES=3 python pytorch/main.py inference --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --iteration=5000 --n_concat=$N_CONCAT
