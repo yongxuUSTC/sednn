@@ -18,45 +18,39 @@ else
   echo "Using full data. "
 fi
 
-# Create mixture csv. 
-python prepare_data.py create_mixture_csv --workspace=$WORKSPACE --speech_dir=$TR_SPEECH_DIR --noise_dir=$TR_NOISE_DIR --data_type=train --magnification=2
-python prepare_data.py create_mixture_csv --workspace=$WORKSPACE --speech_dir=$TE_SPEECH_DIR --noise_dir=$TE_NOISE_DIR --data_type=test
+BACKEND="pytorch"
 
-# Calculate mixture audio and features.
+# Create mixture csv
+python utils/prepare_data.py create_mixture_csv --workspace=$WORKSPACE --speech_dir=$TR_SPEECH_DIR --noise_dir=$TR_NOISE_DIR --data_type=train --magnification=2
+python utils/prepare_data.py create_mixture_csv --workspace=$WORKSPACE --speech_dir=$TE_SPEECH_DIR --noise_dir=$TE_NOISE_DIR --data_type=test
+
+# Calculate mixture audio and features
 TR_SNR=0
 TE_SNR=0 
-python prepare_data.py calculate_mixture_features --workspace=$WORKSPACE --speech_dir=$TR_SPEECH_DIR --noise_dir=$TR_NOISE_DIR --data_type=train --snr=$TR_SNR
-python prepare_data.py calculate_mixture_features --workspace=$WORKSPACE --speech_dir=$TE_SPEECH_DIR --noise_dir=$TE_NOISE_DIR --data_type=test --snr=$TE_SNR
+python utils/prepare_data.py calculate_mixture_features --workspace=$WORKSPACE --speech_dir=$TR_SPEECH_DIR --noise_dir=$TR_NOISE_DIR --data_type=train --snr=$TR_SNR
+python utils/prepare_data.py calculate_mixture_features --workspace=$WORKSPACE --speech_dir=$TE_SPEECH_DIR --noise_dir=$TE_NOISE_DIR --data_type=test --snr=$TE_SNR
 
-# Pack features. 
+# Pack features
 N_CONCAT=7
 N_HOP=3
-python prepare_data.py pack_features --workspace=$WORKSPACE --data_type=train --snr=$TR_SNR --n_concat=$N_CONCAT --n_hop=$N_HOP
-python prepare_data.py pack_features --workspace=$WORKSPACE --data_type=test --snr=$TE_SNR --n_concat=$N_CONCAT --n_hop=$N_HOP
+python utils/prepare_data.py pack_features --workspace=$WORKSPACE --data_type=train --snr=$TR_SNR --n_concat=$N_CONCAT --n_hop=$N_HOP
+python utils/prepare_data.py pack_features --workspace=$WORKSPACE --data_type=test --snr=$TE_SNR --n_concat=$N_CONCAT --n_hop=$N_HOP
 
-# Compute scaler. 
-python prepare_data.py write_out_scaler --workspace=$WORKSPACE --data_type=train --snr=$TR_SNR
+# Compute scaler
+python utils/prepare_data.py write_out_scaler --workspace=$WORKSPACE --data_type=train --snr=$TR_SNR
 
-# Train. 
-LEARNING_RATE=1e-4
-CUDA_VISIBLE_DEVICES=3 python main_dnn.py train --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --lr=$LEARNING_RATE
+# Train
+CUDA_VISIBLE_DEVICES=3 python $BACKEND/main.py train --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR
 
-# Plot training stat. 
-python evaluate.py plot_training_stat --workspace=$WORKSPACE --tr_snr=$TR_SNR --bgn_iter=0 --fin_iter=10001 --interval_iter=1000
-
-# Inference, enhanced wavs will be created. 
+# Inference
 ITERATION=10000
-CUDA_VISIBLE_DEVICES=3 python main_dnn.py inference --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --n_concat=$N_CONCAT --iteration=$ITERATION
+CUDA_VISIBLE_DEVICES=3 python $BACKEND/main.py inference --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --iteration=$ITERATION --n_concat=$N_CONCAT
 
-# Calculate PESQ of all enhanced speech. 
+# Plot training stat
+# python evaluate.py plot_training_stat --workspace=$WORKSPACE --tr_snr=$TR_SNR --bgn_iter=0 --fin_iter=10001 --interval_iter=1000
+
+# Calculate PESQ of all enhanced speech
 python evaluate.py calculate_pesq --workspace=$WORKSPACE --speech_dir=$TE_SPEECH_DIR --te_snr=$TE_SNR
 
-# Calculate overall stats. 
+# Calculate overall stats
 python evaluate.py get_stats
-
-
-
-###
-CUDA_VISIBLE_DEVICES=3 python pytorch/main.py train --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR
-
-CUDA_VISIBLE_DEVICES=3 python pytorch/main.py inference --workspace=$WORKSPACE --tr_snr=$TR_SNR --te_snr=$TE_SNR --iteration=5000 --n_concat=$N_CONCAT
