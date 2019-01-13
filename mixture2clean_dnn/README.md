@@ -6,6 +6,11 @@ This code uses deep neural network (DNN) to do speech enhancement. This code is 
 
 Original C++ implementation is here (https://github.com/yongxuUSTC/DNN-for-speech-enhancement) by Yong Xu (yong.xu@surrey.ac.uk). This Keras re-implementation is done by Qiuqiang Kong (q.kong@surrey.ac.uk)
 
+## Requirements
+For pytorch backend, the code is developed using pytorch 1.0.0
+
+For keras backend, the code is developed using keras 2.2.4
+
 ## Run on mini data. 
 It is suggest to use mini data for a quick run before using full data. We already prepared mini data in this repo. You may run the code as follows, 
 
