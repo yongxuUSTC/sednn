@@ -8,46 +8,49 @@ import argparse
 import os
 import csv
 import numpy as np
-import cPickle
 import matplotlib.pyplot as plt
+try:
+    import cPickle
+except:
+    import _pickle as cPickle
 
 
-def plot_training_stat(args):
-    """Plot training and testing loss. 
-    
-    Args: 
-      workspace: str, path of workspace. 
-      tr_snr: float, training SNR. 
-      bgn_iter: int, plot from bgn_iter
-      fin_iter: int, plot finish at fin_iter
-      interval_iter: int, interval of files. 
-    """
-    workspace = args.workspace
-    tr_snr = args.tr_snr
-    bgn_iter = args.bgn_iter
-    fin_iter = args.fin_iter
-    interval_iter = args.interval_iter
-
-    tr_losses, te_losses, iters = [], [], []
-    
-    # Load stats. 
-    stats_dir = os.path.join(workspace, "training_stats", "%ddb" % int(tr_snr))
-    for iter in xrange(bgn_iter, fin_iter, interval_iter):
-        stats_path = os.path.join(stats_dir, "%diters.p" % iter)
-        dict = cPickle.load(open(stats_path, 'rb'))
-        tr_losses.append(dict['tr_loss'])
-        te_losses.append(dict['te_loss'])
-        iters.append(dict['iter'])
-        
-    # Plot
-    line_tr, = plt.plot(tr_losses, c='b', label="Train")
-    line_te, = plt.plot(te_losses, c='r', label="Test")
-    plt.axis([0, len(iters), 0, max(tr_losses)])
-    plt.xlabel("Iterations")
-    plt.ylabel("Loss")
-    plt.legend(handles=[line_tr, line_te])
-    plt.xticks(np.arange(len(iters)), iters)
-    plt.show()
+# def plot_training_stat(args):
+#     """Plot training and testing loss. 
+#     
+#     Args: 
+#       workspace: str, path of workspace. 
+#       tr_snr: float, training SNR. 
+#       bgn_iter: int, plot from bgn_iter
+#       fin_iter: int, plot finish at fin_iter
+#       interval_iter: int, interval of files. 
+#     """
+#     workspace = args.workspace
+#     tr_snr = args.tr_snr
+#     bgn_iter = args.bgn_iter
+#     fin_iter = args.fin_iter
+#     interval_iter = args.interval_iter
+# 
+#     tr_losses, te_losses, iters = [], [], []
+#     
+#     # Load stats. 
+#     stats_dir = os.path.join(workspace, 'training_stats', '{}db'.format(int(tr_snr)))
+#     for iter in range(bgn_iter, fin_iter, interval_iter):
+#         stats_path = os.path.join(stats_dir, '%diters.p' % iter)
+#         dict = cPickle.load(open(stats_path, 'rb'))
+#         tr_losses.append(dict['tr_loss'])
+#         te_losses.append(dict['te_loss'])
+#         iters.append(dict['iter'])
+#         
+#     # Plot
+#     line_tr, = plt.plot(tr_losses, c='b', label='Train')
+#     line_te, = plt.plot(te_losses, c='r', label='Test')
+#     plt.axis([0, len(iters), 0, max(tr_losses)])
+#     plt.xlabel('Iterations')
+#     plt.ylabel('Loss')
+#     plt.legend(handles=[line_tr, line_te])
+#     plt.xticks(np.arange(len(iters)), iters)
+#     plt.show()
 
 
 def calculate_pesq(args):
@@ -67,30 +70,30 @@ def calculate_pesq(args):
     os.system('rm _pesq_results.txt')
     
     # Calculate PESQ of all enhaced speech. 
-    enh_speech_dir = os.path.join(workspace, "enh_wavs", "test", "%ddb" % int(te_snr))
+    enh_speech_dir = os.path.join(workspace, 'enh_wavs', 'test', '{}db'.format(int(te_snr)))
     names = os.listdir(enh_speech_dir)
     for (cnt, na) in enumerate(names):
         print(cnt, na)
         enh_path = os.path.join(enh_speech_dir, na)
         
         speech_na = na.split('.')[0]
-        speech_path = os.path.join(speech_dir, "%s.WAV" % speech_na)
+        speech_path = os.path.join(speech_dir, '{}.WAV'.format(speech_na))
         
         # Call executable PESQ tool. 
-        cmd = ' '.join(["./pesq", speech_path, enh_path, "+16000"])
+        cmd = ' '.join(['./pesq', speech_path, enh_path, '+16000'])
         os.system(cmd)        
         
         
 def get_stats(args):
     """Calculate stats of PESQ. 
     """
-    pesq_path = "_pesq_results.txt"
-    with open(pesq_path, 'rb') as f:
+    pesq_path = '_pesq_results.txt'
+    with open(pesq_path, 'r') as f:
         reader = csv.reader(f, delimiter='\t')
         lis = list(reader)
         
     pesq_dict = {}
-    for i1 in xrange(1, len(lis) - 1):
+    for i1 in range(1, len(lis) - 1):
         li = lis[i1]
         na = li[0]
         pesq = float(li[1])
@@ -101,18 +104,18 @@ def get_stats(args):
             pesq_dict[noise_type].append(pesq)
         
     avg_list, std_list = [], []
-    f = "{0:<16} {1:<16}"
-    print(f.format("Noise", "PESQ"))
-    print("---------------------------------")
+    f = '{0:<16} {1:<16}'
+    print(f.format('Noise', 'PESQ'))
+    print('---------------------------------')
     for noise_type in pesq_dict.keys():
         pesqs = pesq_dict[noise_type]
         avg_pesq = np.mean(pesqs)
         std_pesq = np.std(pesqs)
         avg_list.append(avg_pesq)
         std_list.append(std_pesq)
-        print(f.format(noise_type, "%.2f +- %.2f" % (avg_pesq, std_pesq)))
-    print("---------------------------------")
-    print(f.format("Avg.", "%.2f +- %.2f" % (np.mean(avg_list), np.mean(std_list))))
+        print(f.format(noise_type, '{:.2f} +- {:.2f}'.format(avg_pesq, std_pesq)))
+    print('---------------------------------')
+    print(f.format('Avg.', '{:.2f} +- {:.2f}'.format(np.mean(avg_list), np.mean(std_list))))
 
 
 if __name__ == '__main__':
@@ -137,9 +140,12 @@ if __name__ == '__main__':
     
     if args.mode == 'plot_training_stat':
         plot_training_stat(args)
+        
     elif args.mode == 'calculate_pesq':
         calculate_pesq(args)
+        
     elif args.mode == 'get_stats':
         get_stats(args)
+        
     else:
-        raise Exception("Error!")
+        raise Exception('Incorrect argument!')
