@@ -105,3 +105,8 @@ Avg.             2.08 +- 0.24
 In the inference step, you may add --visualize to the arguments to plot the mixture, clean and enhanced speech log magnitude spectrogram. 
 
 ![alt text](https://github.com/yongxuUSTC/deep_learning_based_speech_enhancement_keras_python/blob/master/mixture2clean_dnn/appendix/enhanced_log_sp.png)
+
+## Bugs report:
+1. PESQ dose not support long path/folder name, so please shorten your path/folder name. Or you will get a wrong/low PESQ score (or you can modify the PESQ source code to enlarge the size of the path name variable)
+
+2. For larger dataset which can not be loaded into the momemory at one time, you can 1. prepare your training scp list ---> 2. random your training scp list ---> 3. split your triaining scp list into several parts ---> 4. read each part for training one by one
