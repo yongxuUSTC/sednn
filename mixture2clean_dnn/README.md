@@ -6,6 +6,11 @@ This code uses deep neural network (DNN) to do speech enhancement. This code is 
 
 Original C++ implementation is here (https://github.com/yongxuUSTC/DNN-for-speech-enhancement) by Yong Xu (yong.xu@surrey.ac.uk). This Keras re-implementation is done by Qiuqiang Kong (q.kong@surrey.ac.uk)
 
+## Requirements
+For pytorch backend, the code is developed using pytorch 1.0.0
+
+For keras backend, the code is developed using keras 2.2.4
+
 ## Run on mini data. 
 It is suggest to use mini data for a quick run before using full data. We already prepared mini data in this repo. You may run the code as follows, 
 
@@ -31,12 +36,17 @@ Avg.    1.35 +- 0.12
 ## Run on TIMIT and 115 noises
 You may replace the mini data with your own data. We listed the data need to be prepared in meta_data/ to re-run the experiments in [1]. The data contains:
 
-Training:
-Speech: TIMIT 4620 training sentences. 
-Noise: 115 kinds of noises (http://staff.ustc.edu.cn/~jundu/The%20team/yongxu/demo/115noises.html)
+Training speech: TIMIT 4620 training sentences. 
+
+Training noise data: 115 noise types data, you can download here
+
+(1) USTC-made 15 noise types: https://drive.google.com/file/d/13CqTkrow_EPdl5x4BQeNHmIdawKRaUcA/view
+
+(2) 100 Ohio noise types: http://web.cse.ohio-state.edu/pnl/corpus/HuNonspeech/HuCorpus.html
 
 Testing:
 Speech: TIMIT 168 testing sentences (selected 10% from 1680 testing sentences)
+
 Noise: Noise 92 (http://www.speech.cs.cmu.edu/comp.speech/Section1/Data/noisex.html)
 
 Some of the dataset are not published. Instead, you could collect your own data. 
