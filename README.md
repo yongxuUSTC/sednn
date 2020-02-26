@@ -16,11 +16,14 @@ The original GPU-C++ code: https://github.com/yongxuUSTC/DNN-for-speech-enhancem
 
 Please cite the following papers if you use this code:
 
-[1]A Regression Approach to Speech Enhancement Based on Deep Neural Networks.YongXu,JunDu,Li-Rong Dai and Chin-Hui Lee, IEEE/ACM Transactions on Audio,Speech, and Language Processing,P.7-19,Vol.23,No.1, 2015 (2018 IEEE SPS Best paper award, citations > 350)
+[1] A Regression Approach to Speech Enhancement Based on Deep Neural Networks. 
+Yong Xu, Jun Du,Li-Rong Dai and Chin-Hui Lee, IEEE/ACM Transactions on Audio,Speech, and Language Processing,P.7-19,Vol.23,No.1, 2015 (2018 IEEE SPS Best paper award, citations > 600)
 
-[2]An Experimental Study on Speech Enhancement Based on Deep Neural Networks.YongXu, JunDu, Li-Rong Dai and Chin-Hui Lee,IEEE signal processing letters, p. 65-68,vol.21,no. 1,January 2014
+[2] An Experimental Study on Speech Enhancement Based on Deep Neural Networks. 
+Yong Xu, Jun Du, Li-Rong Dai and Chin-Hui Lee,IEEE signal processing letters, p. 65-68,vol.21,no. 1,January 2014 (citations > 550)
 
-[3] Multi-Objective Learning and Mask-Based Post-Processing for Deep Neural Network Based Speech Enhancement, Yong Xu, Jun Du, Zhen Huang, Li-Rong Dai, Chin-Hui Lee, Interspeech2015
+[3] Multi-Objective Learning and Mask-Based Post-Processing for Deep Neural Network Based Speech Enhancement, 
+Yong Xu, Jun Du, Zhen Huang, Li-Rong Dai, Chin-Hui Lee, Interspeech2015
 
 Some DNN based speech enhancemen demos:
 
